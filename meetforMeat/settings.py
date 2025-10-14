@@ -77,11 +77,11 @@ REST_FRAMEWORK = {
 }
 MPESA_STK_CALLBACK_URL = 'https://c3fde0917d1e.ngrok-free.app/mpesa/stk-push-callback/'
 ALLOWED_HOSTS = [
-    "meet-for-meat-backend.onrender.com",
-    "localhost",
-    "127.0.0.1",
-    ".ngrok-free.app"
+    'meet-for-meat-backend.onrender.com',
+    'localhost',
+    '127.0.0.1',
 ]
+
 
 
 
