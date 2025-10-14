@@ -1,8 +1,12 @@
 from dotenv import load_dotenv
 load_dotenv()
 
+
+
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+
 
 MPESA_CONSUMER_KEY = os.getenv('MPESA_CONSUMER_KEY')
 MPESA_CONSUMER_SECRET = os.getenv('MPESA_CONSUMER_SECRET')
@@ -26,6 +30,8 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 # Quick-start development settings - unsuitable for production
@@ -70,7 +76,12 @@ REST_FRAMEWORK = {
     ]
 }
 MPESA_STK_CALLBACK_URL = 'https://c3fde0917d1e.ngrok-free.app/mpesa/stk-push-callback/'
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.ngrok-free.app']
+ALLOWED_HOSTS = [
+    "meet-for-meat-backend.onrender.com",
+    "localhost",
+    "127.0.0.1",
+    ".ngrok-free.app"
+]
 
 
 
