@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     # 'kirchagroups',
     'mpesa',
     'kirchagroups.apps.KirchagroupsConfig',
+    'corsheaders',
    
 ]
 AUTH_USER_MODEL = 'users.User'
@@ -80,14 +81,21 @@ ALLOWED_HOSTS = [
     'meet-for-meat-backend.onrender.com',
     'localhost',
     '127.0.0.1',
+    
 ]
 
 
 
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+   
+]
 
+CORS_ALLOW_CREDENTIALS = True
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

@@ -3,6 +3,8 @@ from django.utils import timezone
 from users.models import User
 from livestock.models import Livestock
 
+import uuid
+
 class KirchaGroup(models.Model):
     GROUP_TYPES = [('Half Kircha', 'Half Kircha'), ('Full Kircha', 'Full Kircha')]
     SLAUGHTER_METHODS = [('self-slaughter', 'Self Slaughter'), ('company-managed', 'Company Managed')]
@@ -54,13 +56,24 @@ class GroupMember(models.Model):
     def __str__(self):
         return self.member_full_name
 
+# class GroupInvitation(models.Model):
+#     group = models.ForeignKey(KirchaGroup, on_delete=models.CASCADE, related_name='invitations')
+#     invited_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='group_invitations')
+#     invited_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_invitations')
+#     is_accepted = models.BooleanField(default=False)
+#     invited_at = models.DateTimeField(auto_now_add=True)
+#     responded_at = models.DateTimeField(null=True, blank=True)
+
+#     def __str__(self):
+#         return f"Invite: {self.invited_user} to {self.group} by {self.invited_by}"
 class GroupInvitation(models.Model):
     group = models.ForeignKey(KirchaGroup, on_delete=models.CASCADE, related_name='invitations')
-    invited_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='group_invitations')
+    invited_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='group_invitations', null=True, blank=True)
     invited_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_invitations')
+    invite_code = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     is_accepted = models.BooleanField(default=False)
     invited_at = models.DateTimeField(auto_now_add=True)
     responded_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return f"Invite: {self.invited_user} to {self.group} by {self.invited_by}"
+        return f"Invite to {self.group} by {self.invited_by} (Code: {self.invite_code})"

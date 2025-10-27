@@ -7,4 +7,4 @@ from .serializers import LivestockSerializer
 class LivestockViewSet(viewsets.ModelViewSet):
     queryset = Livestock.objects.all()
     serializer_class = LivestockSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+   
