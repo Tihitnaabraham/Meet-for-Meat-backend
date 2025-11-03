@@ -35,7 +35,7 @@ class GroupInvitationSerializer(serializers.ModelSerializer):
         read_only_fields = ['invited_by', 'invite_code', 'invited_at', 'responded_at']
 
     def get_invite_link(self, obj):
-        # Use local frontend URL since frontend is not hosted
+       
         base_url = 'http://localhost:3000'
         return f"{base_url}/invite/{obj.invite_code}"
 

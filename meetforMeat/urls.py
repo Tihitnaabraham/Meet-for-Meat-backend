@@ -27,6 +27,7 @@ urlpatterns = [
     path('kirchagroups/', include('kirchagroups.urls')),
      path('mpesa/', include('payments.urls')),
       path('admin/', admin.site.urls),
+       path('', include('kirchagroups.urls')),
       
 ]
 

@@ -13,13 +13,17 @@ from rest_framework.permissions import IsAuthenticated
 class KirchaGroupCreateView(generics.ListCreateAPIView):
     queryset = KirchaGroup.objects.all()
     serializer_class = KirchaGroupSerializer
-    # permission_classes = [permissions.IsAuthenticated,CanJoinGroup]
+   
 
 
 class JoinGroupView(generics.ListCreateAPIView):
     queryset = GroupMember.objects.all()
     serializer_class = GroupMemberSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return GroupMember.objects.filter(user=user)
 
     def create(self, request, *args, **kwargs):
         if not request.user:
@@ -34,17 +38,6 @@ class JoinGroupView(generics.ListCreateAPIView):
         self.perform_create(serializer)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-# class InviteMemberView(generics.ListCreateAPIView):
-#     serializer_class = GroupInvitationSerializer
-#     permission_classes = [permissions.IsAuthenticated ]
-
-#     def create(self, request, *args, **kwargs):
-#         data = request.data.copy()
-#         data['invited_by'] = request.user.pk
-#         serializer = self.get_serializer(data=data)
-#         serializer.is_valid(raise_exception=True)
-#         self.perform_create(serializer)
-#         return Response(serializer.data, status=status.HTTP_201_CREATED)
 class InviteMemberView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -59,6 +52,12 @@ class InviteMemberView(APIView):
     def get(self, request, invite_code=None):
         if not invite_code:
             return Response({"error": "Invite code is required"}, status=status.HTTP_400_BAD_REQUEST)
-        # invitation = get_object_or_404(GroupInvitation, invite_code=invite_code)
         serializer = GroupInvitationSerializer( context={'request': request})
         return Response(serializer.data)
+class GroupMembersListView(generics.ListAPIView):
+    serializer_class = GroupMemberSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        group_id = self.kwargs['group_id']
+        return GroupMember.objects.filter(group_id=group_id)
